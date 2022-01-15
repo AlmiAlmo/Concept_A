@@ -8,24 +8,32 @@ public class SelectionBehaviour : MonoBehaviour
     public Material selectedMaterial;
     public bool isSelected;
 
+    private void Awake()
+    {
+        isSelected = false;
+        SetMaterial(deselectedMaterial);
+    }
+
     public void SetSelected(bool newState)
     {
         if(isSelected == newState) { return; }
 
         isSelected = newState;
-        if(isSelected) { SetPawnMaterial(selectedMaterial); }
-        else { SetPawnMaterial(deselectedMaterial); }
+        if(isSelected) { SetMaterial(selectedMaterial); }
+        else { SetMaterial(deselectedMaterial); }
     }
 
-    private void SetPawnMaterial(Material newMaterial)
+    void SetMaterial(Material newMaterial)
     {
         if (newMaterial == null) { return; }
 
         transform.gameObject.GetComponent<Renderer>().material = newMaterial;
     }
 
-    private Material GetCurrentPawnMaterial()
+    Material GetCurrentMaterial()
     {
         return transform.GetComponent<Renderer>().material;
     }
+
+
 }

@@ -17,7 +17,6 @@ public class MovingBehaviour : MonoBehaviour
     void Update()
     {
         float step = speed * Time.deltaTime;
-        Debug.Log(step);
         transform.position = Vector3.MoveTowards(transform.position, target, step);
     }
 }
