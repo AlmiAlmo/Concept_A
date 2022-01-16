@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GlobalUI : MonoBehaviour
+public class UserControls : MonoBehaviour
 {
     List<InterractableObject> selected = new List<InterractableObject>();
     UserCommander userCommander;
@@ -34,11 +34,11 @@ public class GlobalUI : MonoBehaviour
 
     void TrySelect(RaycastHit hit)
     {
-        var interractable = hit.collider.gameObject.GetComponent<InterractableObject>();
-        if (interractable != null)
-        {
-            AddInterractableToSelected(interractable);
-        }
+        var gameobject = hit.collider.gameObject;
+        if(gameobject == null) { return; }
+        var interractable = gameobject.GetComponent<InterractableObject>();
+        if (interractable == null) { return; }
+        AddInterractableToSelected(interractable);
     }
 
     RaycastHit GetClickHit()
