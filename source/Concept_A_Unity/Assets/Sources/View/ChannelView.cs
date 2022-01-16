@@ -7,9 +7,16 @@ using Information;
 
 public class ChannelView : MonoBehaviour, ChannelSystem.IChannelView
 {
+    ChatUI chat;
+
     public static ChannelView Create(GameObject parent)
     {
         return parent.AddComponent<ChannelView>();
+    }
+
+    void Start()
+    {
+        chat = FindObjectOfType<ChatUI>();
     }
 
     public void OnParcelBroadcast(ChannelSystem.Parcel parcel, float printTime, bool isNonsense)
@@ -25,7 +32,7 @@ public class ChannelView : MonoBehaviour, ChannelSystem.IChannelView
 
     void Print(string str)
     {
-        Debug.Log(str);
+        chat.AddMessage(str);
     }
 
 
