@@ -15,7 +15,7 @@ public class ChannelAI : MonoBehaviour
 
     public User channelUser { get; private set; }
 
-    public Questioner<bool> questioner { get; private set; } = new Questioner<bool>();
+    public Questioner<Message> questioner { get; private set; } = new Questioner<Message>();
     Sequence sequence = new Sequence(null);
 
     bool isIgnoreIfNotAck = false;
@@ -111,8 +111,8 @@ public class ChannelAI : MonoBehaviour
                 break;
 
             case R.Action.ANSWER:
-                bool isAck = (bool)parcel.payload;
-                if (!isAck) { ResetAndListen(); }
+                var answer = (Answer)parcel.payload;
+                if (!answer.isAck) { ResetAndListen(); }
                 break;
 
             default:
@@ -132,13 +132,12 @@ public class ChannelAI : MonoBehaviour
             case R.Action.ANSWER:
                 if (!questioner.isAnswerNeeded )
                 {
-                    //if(isIgnoreIfNotAck) { return; }
                     parcel = new Parcel(parcelType, questioner.answer);
                 }
                 break;
 
             case R.Action.CALL:
-                parcel = new Parcel(parcelType, sendingMessage.recepient);
+                parcel = new Parcel(parcelType, sendingMessage.ToMessage());
                 break;
 
             case R.Action.DATA:
@@ -146,7 +145,7 @@ public class ChannelAI : MonoBehaviour
                 break;
 
             case R.Action.END:
-                parcel = new Parcel(parcelType, null);
+                parcel = new Parcel(parcelType, sendingMessage);
                 break;
 
             default:
@@ -170,7 +169,12 @@ public class ChannelAI : MonoBehaviour
 
     void CheckAnswer()
     {
-        bool isAck = questioner.answer;
+        bool isAck = false;
+        if (questioner.answer is Answer)
+        {
+            var answer = questioner.answer as Answer;
+            isAck = answer.isAck;
+        }    
 
         if (isIgnoreIfNotAck && !isAck)
         {

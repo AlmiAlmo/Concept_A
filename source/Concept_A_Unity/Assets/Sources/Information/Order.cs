@@ -15,5 +15,10 @@ namespace Information
             this.action = action;
             this.target = target;
         }
+
+        public override Message ToMessage()
+        {
+            return new Message(initiator, recepient);
+        }
     }
 }

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Action = ChannelSystem.RadioProtocol.Action;
+using Information;
+
 public class ChannelView : MonoBehaviour, ChannelSystem.IChannelView
 {
-
     public static ChannelView Create(GameObject parent)
     {
         return parent.AddComponent<ChannelView>();
@@ -16,8 +18,8 @@ public class ChannelView : MonoBehaviour, ChannelSystem.IChannelView
         if(isNonsense) { toPrint = RandomString(); }
         else
         {
-            var variants = RadioTextDatabase.GetVariant(parcel);
-            Print(variants[Random.Range(0, variants.Length)]);
+            var textParcel = RadioTextFormatter.FormatParcel(parcel);
+            Print(textParcel);
         }
     }
 
@@ -26,7 +28,8 @@ public class ChannelView : MonoBehaviour, ChannelSystem.IChannelView
         Debug.Log(str);
     }
 
-    public static string RandomString()
+
+    static string RandomString()
     {
         int stringLengt = Random.Range(8, 16);
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -40,7 +43,4 @@ public class ChannelView : MonoBehaviour, ChannelSystem.IChannelView
 
         return new string(stringChars);
     }
-
-
-
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IdentificationManager 
 {
-    static int count = 1; 
+    static int count = ((int)Information.Subject.ReservedID.LAST); 
 
     public static Information.Subject GenerateSubject()
     {
@@ -12,5 +12,4 @@ public class IdentificationManager
         count++;
         return newSubject;
     }
-    
 }

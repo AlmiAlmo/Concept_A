@@ -51,26 +51,30 @@ public class CharacterAI : AI
     {
         var questioner = channelAI.questioner;
         if (!questioner.isAnswerNeeded) { return; }
-        bool isAck = false;
+        Information.Message answer = new Information.Answer(character.subject, false);
 
-        if(questioner.question is Information.Subject)
+        if(questioner.question is Information.Order)
         {
-            var recepient = questioner.question as Information.Subject;
-            isAck = (recepient == character.subject);
-            isAwaitingOrder = isAck;
-            //Debug.Log("Qustion is recepient? Answer is: " + isAck);
-            questioner.AnswerAs(isAck);
-        }
-        else if(questioner.question is Information.Order)
-        {
-            isAck = IsOrderCanExecuted(questioner.question as Information.Order);
+            var order = (questioner.question as Information.Order);
+            bool isAck = IsOrderCanExecuted(order);
             //Debug.Log("Can execute this order? Answer is: " + isAck);
             if(isAck && isAwaitingOrder)
             {
                 ReceiveOrder(questioner.question as Information.Order);
             }
+            answer = new Information.Answer(character.subject, order.initiator, isAck, false);
         }
-        questioner.AnswerAs(isAck);
+        else if (questioner.question is Information.Message)
+        {
+            var msg = questioner.question as Information.Message;
+            isAwaitingOrder = (msg.recepient == character.subject);
+            //Debug.Log("Qustion is recepient? Answer is: " + isAck);
+            if (isAwaitingOrder)
+            {
+                answer = new Information.Answer(character.subject, msg.initiator, true, true);
+            }
+        }
+        questioner.AnswerAs(answer);
     }
 
     bool IsOrderCanExecuted(Information.Order order)

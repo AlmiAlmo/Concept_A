@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Character : Pawn
 {
-    public readonly Information.Subject subject = IdentificationManager.GenerateSubject();
+    public Information.Subject subject { get; private set; }
     public int id;
     public CharacterAI characterAI { get; private set; }
 
@@ -12,6 +12,7 @@ public class Character : Pawn
     void Awake()
     {
         characterAI = this.gameObject.AddComponent<CharacterAI>();
+        subject = IdentificationManager.GenerateSubject();
         id = subject.subject;
     }
 }

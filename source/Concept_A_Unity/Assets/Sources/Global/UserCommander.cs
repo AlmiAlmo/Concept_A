@@ -6,8 +6,6 @@ using ChannelSystem;
 
 public class UserCommander : MonoBehaviour
 {
-    const int kPlayerID = 0;
-    readonly Information.Subject kPlayerSubject = new Information.Subject(kPlayerID);
     List<ChannelSystem.Channel> userChannels = new List<ChannelSystem.Channel> ();
 
     ChannelAI channelAI;
@@ -42,7 +40,8 @@ public class UserCommander : MonoBehaviour
         Information.Action action, 
         Information.ITarget target)
     {
-        var order = new Information.Order(kPlayerSubject, recepient, action, target);
+        var playerSubject = Information.Subject.PLAYER;
+        var order = new Information.Order(playerSubject, recepient, action, target);
         return order;
     }
 
@@ -50,18 +49,19 @@ public class UserCommander : MonoBehaviour
     {
         var questioner = channelAI.questioner;
         if (!questioner.isAnswerNeeded) { return; }
-        bool isAck = false;
+        Information.Message answer = null;
 
-        if (questioner.question is Information.Subject)
+        if (questioner.question is Information.Message)
         {
-            var recepient = questioner.question as Information.Subject;
-            isAck = (recepient.subject == 0);
-            questioner.AnswerAs(isAck);
+            var player = Information.Subject.PLAYER;
+            var msg = questioner.question as Information.Message;
+            bool isAck = (msg.recepient.subject == player.subject);
+            answer = new Information.Message(player, msg.recepient);
         }
         else if (questioner.question is Information.Order)
         {
             Debug.Log("the tail wagging the dog");
         }
-        questioner.AnswerAs(isAck);
+        questioner.AnswerAs(answer);
     }
 }
