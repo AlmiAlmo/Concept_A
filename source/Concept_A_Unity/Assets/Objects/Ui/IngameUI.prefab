@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6785759971933179060}
+  - component: {fileID: 2387365625552068495}
   m_Layer: 0
   m_Name: IngameUI
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2387365625552068495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457280615584699875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bbea910eda73444992f0661c2517d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  channelChat: {fileID: 1662492783390095495, guid: 69dc76e64b6451a4881346ad23ae2749, type: 3}
 --- !u!1 &3462228297419355045
 GameObject:
   m_ObjectHideFlags: 0
